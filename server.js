@@ -4,7 +4,7 @@ const {mongoose} = require('./db/mongoose');
 const {Sponsor} = require('./db/Sponsor');
 
 const app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3100;
 
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -18,8 +18,33 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-	res.send('Hello server!');
+app.get('/sponsors', (req, res) => {
+	Sponsor.find().then(sponsor => {
+        res.send(sponsor);
+    });
+});
+
+app.post('/sponsors', (req, res) => {
+	var NewSponsor = new Sponsor({
+		by: req.body.by,
+		dateCreated: req.body.date,
+		type: req.body.type,
+		description: req.body.des,
+		priceRange: req.body.priceRange,
+		requests: []
+	});
+
+	NewSponsor.save().then((doc) => {
+		res.send(doc);
+	});
+});
+
+app.get('/sponsors/:by', (req, res) => {
+	var by = req.params.by;
+
+	Sponsor.find({by}).then((sponsor) => {
+		res.send(sponsor);
+	});
 });
 
 app.listen(port, () => {
