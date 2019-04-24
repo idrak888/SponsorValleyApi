@@ -7,6 +7,12 @@ const Sponsor = mongoose.model('Sponsor', {
 		minlength: 1,
 		trim: true
 	},
+	createdBy: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true	
+	}
 	dateCreated: {
 		type: String,
 		required: true
