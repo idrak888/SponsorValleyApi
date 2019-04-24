@@ -7,20 +7,21 @@ const app = express();
 var port = process.env.PORT || 3100;
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers",
-    "Origin, X-Requeted-With, Content-Type, Accept, Authorization, RBR");
-  next();
-});  
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Expose-Headers", "X-Auth");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, x-auth");
+	if (req.method === 'OPTIONS') {
+		res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+	}
+	next();
+});
 
 app.use(bodyParser.json());
 
 app.get('/sponsors', (req, res) => {
 	Sponsor.find().then(sponsor => {
         res.send(sponsor);
-    }).catch(err => {
-		res.send(err);
-	});
+    });
 });
 
 app.post('/sponsors', (req, res) => {
@@ -30,31 +31,26 @@ app.post('/sponsors', (req, res) => {
 		type: req.body.type,
 		description: req.body.des,
 		priceRange: req.body.priceRange,
-		requests: [],
-		createdBy: req.body.createdBy
+		requests: []
 	});
 
 	NewSponsor.save().then((doc) => {
 		res.send(doc);
-	}).catch(err => {
-		res.send(err);
 	});
 });
 
-app.get('/sponsors/:id', (req, res) => {
-	var createdBy = req.params.id;
+app.get('/sponsors/:by', (req, res) => {
+	var by = req.params.by;
 
-	Sponsor.find({createdBy}).then((sponsor) => {
+	Sponsor.find({by}).then((sponsor) => {
 		res.send(sponsor);
-	}).catch(err => {
-		res.send(err);
 	});
 });
 
 app.delete('/sponsors', (req, res) => {
-	Sponsor.find().remove().then((doc) => {
-		res.send(doc);
-	});
+    Sponsor.find().remove().then(result => {
+	    res.send(result);
+    });
 });
 
 app.listen(port, () => {
