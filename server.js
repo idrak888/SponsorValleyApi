@@ -33,12 +33,12 @@ app.get('/sponsors', (req, res) => {
 app.post('/sponsors', (req, res) => {
 	var NewSponsor = new Sponsor({
 		by: req.body.by,
-		createdBy: req.body.createdBy,
 		dateCreated: req.body.date,
 		type: req.body.type,
 		description: req.body.des,
 		priceRange: req.body.priceRange,
-		requests: []
+		requests: [],
+		createdBy: req.body.createdBy
 	});
 
 	NewSponsor.save().then((doc) => {
