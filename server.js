@@ -49,7 +49,7 @@ app.post('/sponsors', (req, res) => {
 });
 
 app.get('/sponsors/:id', (req, res) => {
-	var id = req.params.id;
+	var createdBy = req.params.id;
 
 	Sponsor.find({createdBy}).then((sponsor) => {
 		res.send(sponsor);
