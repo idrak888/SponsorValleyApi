@@ -8,8 +8,6 @@ var port = process.env.PORT || 3100;
 
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Expose-Headers", "X-Auth");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, x-auth");
 	if (req.method === 'OPTIONS') {
 		res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
 	}
@@ -21,7 +19,9 @@ app.use(bodyParser.json());
 app.get('/sponsors', (req, res) => {
 	Sponsor.find().then(sponsor => {
         res.send(sponsor);
-    });
+    }).catch(err => {
+		res.send(err);
+	});
 });
 
 app.post('/sponsors', (req, res) => {
@@ -36,6 +36,8 @@ app.post('/sponsors', (req, res) => {
 
 	NewSponsor.save().then((doc) => {
 		res.send(doc);
+	}).catch(err => {
+		res.send(err);
 	});
 });
 
@@ -44,6 +46,8 @@ app.get('/sponsors/:by', (req, res) => {
 
 	Sponsor.find({by}).then((sponsor) => {
 		res.send(sponsor);
+	}).catch(err => {
+		res.send(err);
 	});
 });
 
