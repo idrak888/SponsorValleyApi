@@ -57,6 +57,12 @@ app.get('/sponsors/:id', (req, res) => {
 	});
 });
 
+app.delete('/sponsors', (req, res) => {
+	Sponsor.find().remove().then((doc) => {
+		res.send(doc);
+	});
+});
+
 app.listen(port, () => {
 	console.log('Server is up on port ' + port);
 });
