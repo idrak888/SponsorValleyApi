@@ -40,10 +40,10 @@ app.post('/sponsors', (req, res) => {
 	});
 });
 
-app.get('/sponsors/:by', (req, res) => {
-	var by = req.params.by;
+app.get('/sponsors/:id', (req, res) => {
+	var createdBy = req.params.id;
 
-	Sponsor.find({by}).then((sponsor) => {
+	Sponsor.find({createdBy}).then((sponsor) => {
 		res.send(sponsor);
 	});
 });
