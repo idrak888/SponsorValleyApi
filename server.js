@@ -28,6 +28,7 @@ app.post('/sponsors', (req, res) => {
 	var NewSponsor = new Sponsor({
 		by: req.body.by,
 		dateCreated: req.body.date,
+		createdBy: req.body.createdBy,
 		type: req.body.type,
 		description: req.body.des,
 		priceRange: req.body.priceRange,
