@@ -25,7 +25,7 @@ app.get('/sponsors', (req, res) => {
 });
 
 app.get('/sponsors/few', (req, res) => {
-	Sponsor.find().limit(10).then(sponsor => {
+	Sponsor.find().limit(5).then(sponsor => {
         res.send(sponsor);
     });
 });
